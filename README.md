@@ -15,3 +15,9 @@ Gere o docker-compose de uma forma que basta apenas rodarmos: docker-compose up 
 Suba tudo em um repositório e faça a entrega.
 
 * A linguagem de programação para este desafio é Node/JavaScript.
+
+**Diagrama do projeto**
+
+![ccta drawio (2)](https://github.com/CezarGR/fullcycle-desafio-docker-nojejs/assets/51181637/9b9b3cac-44d6-459b-b6f1-0769dd0612eb)
+
+
