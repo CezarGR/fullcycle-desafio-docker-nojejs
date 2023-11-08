@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+  api: 
+    build: 
+      context: ./api
+    entrypoint: dockerize --wait tcp://people-app-db:3306 -timeout 50s ./docker-entrypoint.sh
+    container_name: people-app
+    volumes:
+      - ./api/:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - ${PEOPLE_APP_PORT}:3000
+    depends_on:
+      - db
+      - nginx
+    networks:
+      - fullclycle-people-app
+  
+  db: 
+    image: mysql:5.7
+    container_name: people-app-db
+    restart: always
+    volumes:
+      - ./mysql:/var/lib/mysql
+    command: --innodb-use-native-aio=0
+    environment:
+      - MYSQL_DATABASE=${PEOPLE_DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${PEOPLE_DB_PASSWORD}
+    networks:
+      - fullclycle-people-app
+  
+  nginx:
+    build: 
+      context: ./nginx
+    container_name: people-app-nginx
+    ports:
+      - ${PEOPLE_APP_NGINX_PORT}:80
+    networks:
+      - fullclycle-people-app
+
+networks:
+  fullclycle-people-app:
+    driver: bridge
